@@ -1,0 +1,12 @@
+<launch>
+  <node ns="maWebcam" name="webcam" pkg="uvc_camera" type="uvc_camera_node"/>
+
+
+  <node ns="lastVisu" name="maVisuSift" pkg="image_view" type="image_view" />
+
+  <node name="suivi_couleur" pkg="suivi_couleur_ros" type="suivi_couleur.py">
+	<remap from="image_topic_in" to="maWebcam/image_raw" />	
+    <remap from="image_topic_out" to="lastVisu/image" />
+  </node>
+
+</launch>
