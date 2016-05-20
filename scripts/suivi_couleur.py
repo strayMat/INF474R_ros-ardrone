@@ -31,8 +31,8 @@ class image_converter:
   # Our operations on the frame come here
     hsv = cv2.cvtColor(cv_image, cv2.COLOR_BGR2HSV)
 
-    lower_bound = np.array([330/2,90,30], dtype=np.uint8)
-    upper_bound = np.array([360/2,255,255], dtype=np.uint8)
+    lower_bound = np.array([340/2,150,80], dtype=np.uint8)
+    upper_bound = np.array([380/2,255,255], dtype=np.uint8)
 
     mask = cv2.inRange(hsv, lower_bound, upper_bound);
     # on epure l'image : 
@@ -41,9 +41,12 @@ class image_converter:
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
     
     # calcule le centre de masse de l'image binaire obtenue (donc de l'objet d'interet)
-    M = cv2.moments(mask)
-    cx = int(M['m10']/M['m00'])
-    cy = int(M['m01']/M['m00'])
+    cx = int(0)
+    cy = int(0)
+    if (cv2.countNonZero(mask) != 0):
+      M = cv2.moments(mask)
+      cx = int(M['m10']/M['m00'])
+      cy = int(M['m01']/M['m00'])
     # trace un cercle au centre de masse de l'objet
     center = (cx,cy)
     thickness = 5
